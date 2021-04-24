@@ -1,0 +1,29 @@
+  Serial.println(moisture_value);
+  Blynk.virtualWrite(V1,moisture_value);          //soil moisture
+  if(moisture_value>500 && c==0)
+  {lcd.clear(); 
+    Serial.println("required water");
+    Blynk.notify("required water");
+    lcd.print(1,0,"Do irrigation");
+    c=1;
+  }
+  else if(moisture_value<500 && c==1)
+  { lcd.clear();
+    Serial.println("no water required");
+    Blynk.notify("no water required");
+    lcd.print(1,1,"No irrigation");
+    c=0;
+  }
+ float h = dht.readHumidity();
+    float t = dht.readTemperature();         
+    Serial.print("Current humidity = ");
+    Serial.print(h);
+    Serial.print("%  ");
+    Serial.print("temperature = ");
+    Serial.print(t); 
+    Serial.println("C  ");
+  delay(800);
+   
+}
+
+
