@@ -1,0 +1,54 @@
+#include <Servo.h>
+
+int servoPin = 9;
+Servo servo;
+int angle = 0;  // servo position in degrees
+
+const int trigPin = 7; // Trigger Pin of Ultrasonic Sensor
+const int echoPin = 6; // Echo Pin of Ultrasonic Sensor
+float duration_us, distance_cm;
+
+void setup() {
+    servo.attach(servoPin);
+    // configure the trigger pin to output mode
+  pinMode(trigPin, OUTPUT);
+  // configure the echo pin to input mode
+  pinMode(echoPin, INPUT);
+}
+
+void loop() 
+{
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  // measure duration of pulse from ECHO pin
+  duration_us = pulseIn(echoPin, HIGH);
+
+  // calculate the distance
+  distance_cm = 0.017 * duration_us;
+
+  // print the value to Serial Monitor
+  Serial.print("distance: ");
+  Serial.print(distance_cm);
+  Serial.println(" cm");
+  delay(200);
+  
+
+  if(distance_cm<10)
+  {
+  
+
+    // scan from 0 to 180 degrees
+    for(angle = 0; angle < 80; angle++) {
+        servo.write(angle);
+        delay(5);
+    }
+    
+    // now scan back from 180 to 0 degrees
+    for(angle =80 ; angle > 0; angle--) {
+        servo.write(angle);
+        delay(5);
+    }
+  }
+}
